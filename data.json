@@ -1,0 +1,412 @@
+{
+  "Blue": [
+    {
+      "name": "Blue1",
+      "src": "public/images/Blue/Blue_1.png",
+      "price": 799,
+      "color": "Blue"
+    },
+    {
+      "name": "Blue2",
+      "src": "public/images/Blue/Blue_2.png",
+      "price": 799,
+      "color": "Blue"
+    },
+    {
+      "name": "Blue3",
+      "src": "public/images/Blue/Blue_3.png",
+      "price": 799,
+      "color": "Blue"
+    },
+    {
+      "name": "Blue4",
+      "src": "public/images/Blue/Blue_4.png",
+      "price": 799,
+      "color": "Blue"
+    },
+    {
+      "name": "Blue5",
+      "src": "public/images/Blue/Blue_5.png",
+      "price": 799,
+      "color": "Blue"
+    },
+    {
+      "name": "Blue6",
+      "src": "public/images/Blue/Blue_6.png",
+      "price": 799,
+      "color": "Blue"
+    },
+    {
+      "name": "Blue7",
+      "src": "public/images/Blue/Blue_7.png",
+      "price": 799,
+      "color": "Blue"
+    },
+    {
+      "name": "Blue8",
+      "src": "public/images/Blue/Blue_8.png",
+      "price": 799,
+      "color": "Blue"
+    },
+    {
+      "name": "Blue9",
+      "src": "public/images/Blue/Blue_9.png",
+      "price": 799,
+      "color": "Blue"
+    },
+    {
+      "name": "Blue10",
+      "src": "public/images/Blue/Blue_10.png",
+      "price": 799,
+      "color": "Blue"
+    }
+  ],
+  "Black": [
+    {
+      "name": "Black1",
+      "src": "public/images/Black/Black_1.png",
+      "price": 799,
+      "color": "Black"
+    },
+    {
+      "name": "Black2",
+      "src": "public/images/Black/Black_2.png",
+      "price": 799,
+      "color": "Black"
+    },
+    {
+      "name": "Black3",
+      "src": "public/images/Black/Black_3.png",
+      "price": 799,
+      "color": "Black"
+    },
+    {
+      "name": "Black4",
+      "src": "public/images/Black/Black_4.png",
+      "price": 799,
+      "color": "Black"
+    },
+    {
+      "name": "Black5",
+      "src": "public/images/Black/Black_5.png",
+      "price": 799,
+      "color": "Black"
+    },
+    {
+      "name": "Black6",
+      "src": "public/images/Black/Black_6.png",
+      "price": 799,
+      "color": "Black"
+    },
+    {
+      "name": "Black7",
+      "src": "public/images/Black/Black_7.png",
+      "price": 799,
+      "color": "Black"
+    },
+    {
+      "name": "Black8",
+      "src": "public/images/Black/Black_8.png",
+      "price": 799,
+      "color": "Black"
+    },
+    {
+      "name": "Black9",
+      "src": "public/images/Black/Black_9.png",
+      "price": 799,
+      "color": "Black"
+    },
+    {
+      "name": "Black10",
+      "src": "public/images/Black/Black_10.png",
+      "price": 799,
+      "color": "Black"
+    }
+  ],
+  "Brown": [
+    {
+      "name": "Brown1",
+      "src": "public/images/Brown/Brown_1.png",
+      "price": 799,
+      "color": "Brown"
+    },
+    {
+      "name": "Brown2",
+      "src": "public/images/Brown/Brown_2.png",
+      "price": 799,
+      "color": "Brown"
+    },
+    {
+      "name": "Brown3",
+      "src": "public/images/Brown/Brown_3.png",
+      "price": 799,
+      "color": "Brown"
+    },
+    {
+      "name": "Brown4",
+      "src": "public/images/Brown/Brown_4.png",
+      "price": 799,
+      "color": "Brown"
+    },
+    {
+      "name": "Brown5",
+      "src": "public/images/Brown/Brown_5.png",
+      "price": 799,
+      "color": "Brown"
+    },
+    {
+      "name": "Brown6",
+      "src": "public/images/Brown/Brown_6.png",
+      "price": 799,
+      "color": "Brown"
+    },
+    {
+      "name": "Brown7",
+      "src": "public/images/Brown/Brown_7.png",
+      "price": 799,
+      "color": "Brown"
+    },
+    {
+      "name": "Brown8",
+      "src": "public/images/Brown/Brown_8.png",
+      "price": 799,
+      "color": "Brown"
+    },
+    {
+      "name": "Brown9",
+      "src": "public/images/Brown/Brown_9.png",
+      "price": 799,
+      "color": "Brown"
+    },
+    {
+      "name": "Brown10",
+      "src": "public/images/Brown/Brown_10.png",
+      "price": 799,
+      "color": "Brown"
+    }
+  ],
+  "Purple": [
+    {
+      "name": "Purple1",
+      "src": "public/images/Purple/Purple_1.png",
+      "price": 799,
+      "color": "Purple"
+    },
+    {
+      "name": "Purple2",
+      "src": "public/images/Purple/Purple_2.png",
+      "price": 799,
+      "color": "Purple"
+    },
+    {
+      "name": "Purple3",
+      "src": "public/images/Purple/Purple_3.png",
+      "price": 799,
+      "color": "Purple"
+    },
+    {
+      "name": "Purple4",
+      "src": "public/images/Purple/Purple_4.png",
+      "price": 799,
+      "color": "Purple"
+    },
+    {
+      "name": "Purple5",
+      "src": "public/images/Purple/Purple_5.png",
+      "price": 799,
+      "color": "Purple"
+    },
+    {
+      "name": "Purple6",
+      "src": "public/images/Purple/Purple_6.png",
+      "price": 799,
+      "color": "Purple"
+    },
+    {
+      "name": "Purple7",
+      "src": "public/images/Purple/Purple_7.png",
+      "price": 799,
+      "color": "Purple"
+    },
+    {
+      "name": "Purple8",
+      "src": "public/images/Purple/Purple_8.png",
+      "price": 799,
+      "color": "Purple"
+    },
+    {
+      "name": "Purple9",
+      "src": "public/images/Purple/Purple_9.png",
+      "price": 799,
+      "color": "Purple"
+    },
+    {
+      "name": "Purple10",
+      "src": "public/images/Purple/Purple_10.png",
+      "price": 799,
+      "color": "Purple"
+    }
+  ],
+  "White": [
+    {
+      "name": "White1",
+      "src": "public/images/White/White_1.png",
+      "price": 799,
+      "color": "White"
+    },
+    {
+      "name": "White2",
+      "src": "public/images/White/White_2.png",
+      "price": 799,
+      "color": "White"
+    },
+    {
+      "name": "White3",
+      "src": "public/images/White/White_3.png",
+      "price": 799,
+      "color": "White"
+    },
+    {
+      "name": "White4",
+      "src": "public/images/White/White_4.png",
+      "price": 799,
+      "color": "White"
+    },
+    {
+      "name": "White5",
+      "src": "public/images/White/White_5.png",
+      "price": 799,
+      "color": "White"
+    },
+    {
+      "name": "White6",
+      "src": "public/images/White/White_6.png",
+      "price": 799,
+      "color": "White"
+    },
+    {
+      "name": "White7",
+      "src": "public/images/White/White_7.png",
+      "price": 799,
+      "color": "White"
+    },
+    {
+      "name": "White8",
+      "src": "public/images/White/White_8.png",
+      "price": 799,
+      "color": "White"
+    },
+    {
+      "name": "White9",
+      "src": "public/images/White/White_9.png",
+      "price": 799,
+      "color": "White"
+    },
+    {
+      "name": "White10",
+      "src": "public/images/White/White_10.png",
+      "price": 799,
+      "color": "White"
+    }
+  ],
+  "Sunglasses": [
+    {
+      "name": "Sunglasses1",
+      "src": "public/images/Sunglasses/SG_1.png",
+      "hoverSrc": "public/images/Sunglasses/SG_1_hover.png",
+      "price": 799,
+      "section": "Sunglasses"
+    },
+    {
+      "name": "Sunglasses2",
+      "src": "public/images/Sunglasses/SG_2.png",
+      "hoverSrc": "public/images/Sunglasses/SG_2_hover.png",
+      "price": 799,
+      "section": "Sunglasses"
+    },
+    {
+      "name": "Sunglasses3",
+      "src": "public/images/Sunglasses/SG_3.png",
+      "hoverSrc": "public/images/Sunglasses/SG_3_hover.png",
+      "price": 799,
+      "section": "Sunglasses"
+    },
+    {
+      "name": "Sunglasses5",
+      "src": "public/images/Sunglasses/SG_5.png",
+      "hoverSrc": "public/images/Sunglasses/SG_5_hover.png",
+      "price": 799,
+      "section": "Sunglasses"
+    },
+    {
+      "name": "Sunglasses6",
+      "src": "public/images/Sunglasses/SG_6.png",
+      "hoverSrc": "public/images/Sunglasses/SG_6_hover.png",
+      "price": 799,
+      "section": "Sunglasses"
+    },
+    {
+      "name": "Sunglasses7",
+      "src": "public/images/Sunglasses/SG_7.png",
+      "hoverSrc": "public/images/Sunglasses/SG_7_hover.png",
+      "price": 799,
+      "section": "Sunglasses"
+    },
+    {
+      "name": "Sunglasses8",
+      "src": "public/images/Sunglasses/SG_8.png",
+      "hoverSrc": "public/images/Sunglasses/SG_8_hover.png",
+      "price": 799,
+      "section": "Sunglasses"
+    },
+    {
+      "name": "Sunglasses10",
+      "src": "public/images/Sunglasses/SG_10.png",
+      "hoverSrc": "public/images/Sunglasses/SG_10_hover.png",
+      "price": 799,
+      "section": "Sunglasses"
+    },
+    {
+      "name": "Sunglasses11",
+      "src": "public/images/Sunglasses/SG_11.png",
+      "hoverSrc": "public/images/Sunglasses/SG_11_hover.png",
+      "price": 799,
+      "section": "Sunglasses"
+    },
+    {
+      "name": "Sunglasses12",
+      "src": "public/images/Sunglasses/SG_12.png",
+      "hoverSrc": "public/images/Sunglasses/SG_12_hover.png",
+      "price": 799,
+      "section": "Sunglasses"
+    },
+    {
+      "name": "Sunglasses13",
+      "src": "public/images/Sunglasses/SG_13.png",
+      "hoverSrc": "public/images/Sunglasses/SG_13_hover.png",
+      "price": 799,
+      "section": "Sunglasses"
+    },
+    {
+      "name": "Sunglasses15",
+      "src": "public/images/Sunglasses/SG_15.png",
+      "hoverSrc": "public/images/Sunglasses/SG_15_hover.png",
+      "price": 799,
+      "section": "Sunglasses"
+    },
+    {
+      "name": "Sunglasses16",
+      "src": "public/images/Sunglasses/SG_16.png",
+      "hoverSrc": "public/images/Sunglasses/SG_16_hover.png",
+      "price": 799,
+      "section": "Sunglasses"
+    },
+    {
+      "name": "Sunglasses17",
+      "src": "public/images/Sunglasses/SG_17.png",
+      "hoverSrc": "public/images/Sunglasses/SG_17_hover.png",
+      "price": 799,
+      "section": "Sunglasses"
+    }
+  ]
+}
