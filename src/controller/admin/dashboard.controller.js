@@ -11,6 +11,7 @@ const dashboard = async (req, res) => {
       pendingOrders,
       cancelledOrders,
       deliveredOrders,
+      revenueData,
     ] = await Promise.all([
       User.countDocuments(),
       Order.countDocuments(),
