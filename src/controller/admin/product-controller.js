@@ -1,5 +1,6 @@
 import Product from "../../models/product-model.js";
-import mongoose from "mongoose";
+import getPagination from "../../util/Pagination.js";
+import getSort from "../../util/Sorting.js";
 
 const addProduct = async (req, res) => {
   try {
@@ -104,9 +105,7 @@ const deleteProduct = async (req, res) => {
 
     await product.deleteOne();
 
-    return res
-      .status(200)
-      .json({ message: "Product deleted successfully", product });
+    return res.status(200).json({ message: "Product deleted successfully" });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Server Error" });
@@ -115,41 +114,18 @@ const deleteProduct = async (req, res) => {
 
 const getProducts = async (req, res) => {
   try {
+    // Query Parameters
     let query = {};
-    let sortQuery = {
-      createdAt: -1,
-    };
-
-    // Pagination
-    const { page = 1, limit = 20 } = req.query;
 
     // Filtering
-    const { search, color, section } = req.query;
 
-    // Sorting
+    const { page = 1, limit = 20 } = req.query;
+
+    const { search, color, section } = req.query;
 
     const { sort } = req.query;
 
-    if (sort) {
-      const descending = sort.startsWith("-");
-      const field = descending ? sort.slice(1) : sort.toString();
-
-      const allowedSortField = ["name", "price", "createdAt"];
-
-      if (!allowedSortField.includes(field)) {
-        return res
-          .status(400)
-          .json({ message: "Please enter valid sort condition" });
-      }
-
-      const direction = descending ? -1 : 1;
-
-      sortQuery = {
-        [field]: direction,
-      };
-    }
-
-    // MongoDB Querying
+    // Validation
 
     if (search) {
       query.name = {
@@ -172,42 +148,37 @@ const getProducts = async (req, res) => {
       };
     }
 
-    // Pagination
+    // Utilities
 
-    let pageNumber = Number(page);
-    let limitNumber = Number(limit);
+    const { pageNumber, limitNumber, skip } = getPagination(page, limit);
+    const sortQuery = getSort(sort, ["name", "price", "createdAt"]);
 
-    if (isNaN(pageNumber) || pageNumber < 1) {
-      pageNumber = 1;
-    }
-
-    if (isNaN(limitNumber) || limitNumber < 1) {
-      limitNumber = 20;
-    } else if (limitNumber > 50) {
-      limitNumber = 50;
-    }
-
-    const skip = (pageNumber - 1) * limitNumber;
-
-    const products = await Product.find(query)
-      .lean()
-      .select("name price quantity color section src")
-      .sort(sortQuery)
-      .skip(skip)
-      .limit(limitNumber);
     const totalProducts = await Product.countDocuments(query);
     const totalPages = Math.ceil(totalProducts / limitNumber);
 
-    // Return
+    // MongoDB Querying
+
+    const products = await Product.find(query)
+      .select("name price quantity color section src")
+      .sort(sortQuery)
+      .skip(skip)
+      .limit(limitNumber)
+      .lean();
+
+    // Response
 
     return res.status(200).json({
-      page: pageNumber,
-      limit: limitNumber,
-      totalProducts,
-      totalPages,
-      products,
-      hasNextPage: pageNumber < totalPages,
-      hasPreviousPage: pageNumber > 1,
+      data: products,
+      pagination: {
+        page: pageNumber,
+        limit: limitNumber,
+
+        totalProducts,
+        totalPages,
+
+        hasNextPage: pageNumber < totalPages,
+        hasPreviousPage: pageNumber > 1,
+      },
     });
   } catch (error) {
     console.error(error);
@@ -217,12 +188,9 @@ const getProducts = async (req, res) => {
 
 const getSpecifiedProduct = async (req, res) => {
   try {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-      return res.status(400).json({ message: "Invalid product Id" });
-    }
     const product = await Product.findById(req.params.id)
-      .lean()
-      .select("name price color quantity section description src");
+      .select("name price color quantity section description src")
+      .lean();
 
     if (!product) {
       return res.status(404).json({ message: "Product not found" });

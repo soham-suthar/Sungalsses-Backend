@@ -1,31 +1,34 @@
+import express from "express";
 import authMiddleware from "../../middleware/auth-middleware.js";
 import adminMiddleware from "../../middleware/admin/admin-middleware.js";
-import express from "express";
-import * as adminController from "../../controller/admin/order-controller.js";
 import validateObjectId from "../../middleware/validateObjectId.js";
+import * as adminController from "../../controller/admin/user-controller.js";
 
 const adminRouter = express.Router();
 
 adminRouter
-  .route("/orders")
-  .get(authMiddleware, adminMiddleware, adminController.order);
+  .route("/users")
+  .get(authMiddleware, adminMiddleware, adminController.allUsers);
 
 adminRouter
-  .route("/orders/:id/status")
-  .patch(
-    authMiddleware,
-    adminMiddleware,
-    validateObjectId,
-    adminController.updateStatus,
-  ); /* orderStatus: __, valid: ["Placed", "Processing", "Shipped", "Delivered"] */
-
-adminRouter
-  .route("/orders/:id")
+  .route("/users/:id")
   .get(
     authMiddleware,
     adminMiddleware,
     validateObjectId,
-    adminController.specifiedOrder,
+    adminController.getSpecifiedUser,
+  )
+  .patch(
+    authMiddleware,
+    adminMiddleware,
+    validateObjectId,
+    adminController.updateUser,
+  )
+  .delete(
+    authMiddleware,
+    adminMiddleware,
+    validateObjectId,
+    adminController.deleteUser,
   );
 
 export default adminRouter;

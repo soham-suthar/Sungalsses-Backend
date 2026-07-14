@@ -7,6 +7,7 @@ import {
   updateProductSchema,
 } from "../../validation/validation.js";
 import * as adminController from "../../controller/admin/product-controller.js";
+import validateObjectId from "../../middleware/validateObjectId.js";
 
 const adminRouter = express.Router();
 
@@ -42,6 +43,7 @@ adminRouter
   .patch(
     authMiddleware,
     adminMiddleware,
+    validateObjectId,
     validate(updateProductSchema),
     adminController.updateProduct,
   ); /* Any of them to update
@@ -56,10 +58,17 @@ adminRouter
 
 adminRouter
   .route("/products/:id")
-  .get(authMiddleware, adminMiddleware, adminController.getSpecifiedProduct);
-
-adminRouter
-  .route("/products/:id/delete")
-  .delete(authMiddleware, adminMiddleware, adminController.deleteProduct);
+  .get(
+    authMiddleware,
+    adminMiddleware,
+    validateObjectId,
+    adminController.getSpecifiedProduct,
+  )
+  .delete(
+    authMiddleware,
+    adminMiddleware,
+    validateObjectId,
+    adminController.deleteProduct,
+  );
 
 export default adminRouter;

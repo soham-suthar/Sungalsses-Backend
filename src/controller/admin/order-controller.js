@@ -1,73 +1,23 @@
-import mongoose from "mongoose";
 import Order from "../../models/order-model.js";
 import User from "../../models/user-model.js";
+import getPagination from "../../util/Pagination.js";
+import getSort from "../../util/Sorting.js";
 
 const order = async (req, res) => {
   try {
-    // Querying
-
-    let sortQuery = {
-      createdAt: -1,
-      _id: -1,
-    };
+    // Query Parameters
 
     let query = {};
 
-    // Pagination
+    // Filtering
 
     const { page = 1, limit = 10 } = req.query;
 
-    // Filtering
-
     const { search, orderStatus, paymentStatus } = req.query;
-
-    // Sorting
 
     const { sort } = req.query;
 
-    if (sort) {
-      const descending = sort.startsWith("-");
-      const field = descending ? sort.slice(1) : sort.toString();
-
-      const allowedSortField = [
-        "createdAt",
-        "totalPrice",
-        "paymentStatus",
-        "orderStatus",
-      ];
-
-      if (!allowedSortField.includes(field)) {
-        return res
-          .status(400)
-          .json({ message: "Please enter valid sort condition" });
-      }
-
-      const direction = descending ? -1 : 1;
-
-      sortQuery = {
-        [field]: direction,
-        _id: -1,
-      };
-    }
-
-    // Pagination
-
-    let pageNumber = Number(page);
-    let limitNumber = Number(limit);
-
-    if (isNaN(pageNumber) || pageNumber < 1) {
-      pageNumber = 1;
-    }
-
-    if (isNaN(limitNumber) || limitNumber < 1) {
-      limitNumber = 10;
-    } else if (limitNumber > 20) {
-      limitNumber = 20;
-    }
-
-    const skip = (pageNumber - 1) * limitNumber;
-
-    // MongoDB Querying
+    // Validation
 
     if (search) {
       const users = await User.find({
@@ -98,6 +48,21 @@ const order = async (req, res) => {
           hasPreviousPage: false,
         });
       }
+
+      // Utilities
+
+      const { pageNumber, limitNumber, skip } = getPagination(page, limit);
+      const sortQuery = getSort(sort, [
+        "totalPrice",
+        "paymentStatus",
+        "orderStatus",
+        "createdAt",
+      ]);
+
+      const totalOrders = await Order.countDocuments(query);
+      const totalPages = Math.ceil(totalOrders / limitNumber);
+
+      // MongoDB querying
 
       const userIds = users.map((user) => user._id);
 
@@ -140,26 +105,27 @@ const order = async (req, res) => {
       .populate("user", "name email")
       .populate("items.product", "name price color")
       .select(
-        "totalItems totalPrice orderStatus paymentMethod paymentStatus createdAt",
+        "items totalItems totalPrice orderStatus paymentMethod paymentStatus createdAt",
       )
       .sort(sortQuery)
       .skip(skip)
       .limit(limitNumber)
       .lean();
 
-    const totalOrders = await Order.countDocuments(query);
-    const totalPages = Math.ceil(totalOrders / limitNumber);
-
     // Return
 
     return res.status(200).json({
-      page: pageNumber,
-      limit: limitNumber,
-      totalOrders,
-      totalPages,
-      orders,
-      hasNextPage: pageNumber < totalPages,
-      hasPreviousPage: pageNumber > 1,
+      data: orders,
+      pagination: {
+        page: pageNumber,
+        limit: limitNumber,
+
+        totalOrders,
+        totalPages,
+
+        hasNextPage: pageNumber < totalPages,
+        hasPreviousPage: pageNumber > 1,
+      },
     });
   } catch (error) {
     console.error(error);
@@ -211,10 +177,6 @@ const updateStatus = async (req, res) => {
 
 const specifiedOrder = async (req, res) => {
   try {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-      return res.status(400).json({ message: "Invalid order id" });
-    }
-
     const order = await Order.findById(req.params.id)
       .populate("user", "name email")
       .populate("items.product", "name color src")
