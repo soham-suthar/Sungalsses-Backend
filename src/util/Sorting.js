@@ -13,7 +13,9 @@ const getSort = (sort, allowedSortField) => {
   const direction = descending ? -1 : 1;
 
   if (!allowedSortField.includes(field)) {
-    throw new Error("Invalid sort field");
+    return {
+      createdAt: -1,
+    };
   }
 
   sortQuery = {

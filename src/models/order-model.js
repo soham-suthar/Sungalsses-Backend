@@ -13,7 +13,7 @@ const orderSchema = new mongoose.Schema(
       {
         product: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "products",
+          ref: "Product",
           required: true,
         },
 
@@ -65,6 +65,6 @@ const orderSchema = new mongoose.Schema(
   },
 );
 
-const Order = new mongoose.model("order", orderSchema);
+const Order = new mongoose.model("Order", orderSchema);
 
 export default Order;

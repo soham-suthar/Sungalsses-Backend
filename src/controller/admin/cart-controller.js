@@ -1,16 +1,15 @@
-import getSort from "../../util/Sorting.js";
 import getPagination from "../../util/Pagination.js";
 import Cart from "../../models/cart-model.js";
+import User from "../../models/user-model.js";
 
 const getCarts = async (req, res) => {
   try {
     let query = {};
-    const { sort } = req.query;
     const { search } = req.query;
     const { page = 1, limit = 10 } = req.query;
 
     if (search) {
-      const carts = await Cart.find({
+      const users = await User.find({
         $or: [
           {
             name: {
@@ -25,7 +24,27 @@ const getCarts = async (req, res) => {
             },
           },
         ],
-      });
+      }).select("_id");
+
+      if (users.length === 0) {
+        return res.status(200).json({
+          data: [],
+          pagination: {
+            page: pageNumber,
+            limit: limitNumber,
+            totalCarts: 0,
+            totalPages: 0,
+            hasNextPage: false,
+            hasPreviousPage: false,
+          },
+        });
+      }
+
+      const userIds = users.map((user) => user._id);
+
+      query.user = {
+        $in: userIds,
+      };
     }
 
     // Pagination

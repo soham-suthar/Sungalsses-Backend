@@ -79,4 +79,14 @@ const updateProductSchema = z.object({
     .optional(),
 });
 
-export { registerSchema, loginSchema, addProductSchema, updateProductSchema };
+const checkoutSchema = z.object({
+  paymentStatus: z.enum(["COD", "UPI", "Card", "Net Banking"]),
+});
+
+export {
+  registerSchema,
+  loginSchema,
+  addProductSchema,
+  updateProductSchema,
+  checkoutSchema,
+};

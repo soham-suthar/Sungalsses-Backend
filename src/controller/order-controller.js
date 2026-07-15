@@ -1,6 +1,7 @@
 import Order from "../models/order-model.js";
 import Cart from "../models/cart-model.js";
 import generateInvoice from "../util/invoice.js";
+import Product from "../models/product-model.js";
 
 const checkout = async (req, res) => {
   try {
@@ -17,7 +18,17 @@ const checkout = async (req, res) => {
     const orderItems = [];
 
     for (const item of cart.items) {
-      if (!item.product) continue;
+      if (!item.product) {
+        return res
+          .status(400)
+          .json({ message: "One or more products are currently unavailable" });
+      }
+
+      if (item.product.quantity < item.quantity) {
+        return res.status(400).json({
+          message: `${item.product.name} is out of stock or has insufficient quantity`,
+        });
+      }
 
       totalItems += item.quantity;
       totalPrice += item.quantity * item.product.price;
@@ -34,8 +45,10 @@ const checkout = async (req, res) => {
     const order = await Order.create({
       user: userId,
       items: orderItems,
+
       totalItems,
       totalPrice,
+
       paymentMethod,
     });
 
@@ -46,11 +59,8 @@ const checkout = async (req, res) => {
 
     // orderItems.push
 
-    order.paymentMethod = "UPI";
-    order.paymentStatus = "Paid";
-    cart.items = [];
+    order.paymentStatus = "Pending";
 
-    await cart.save();
     await order.save();
 
     return res
@@ -136,7 +146,10 @@ const cancellation = async (req, res) => {
 const payment = async (req, res) => {
   try {
     const userId = req.user._id;
-    const order = await Order.findOne({ user: userId, _id: req.params.id });
+    const order = await Order.findOne({
+      user: userId,
+      _id: req.params.id,
+    }).populate("items.product");
 
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
@@ -148,6 +161,27 @@ const payment = async (req, res) => {
 
     if (order.orderStatus == "Cancelled") {
       return res.status(400).json({ message: "Order was Cancelled" });
+    }
+
+    for (const item of order.items) {
+      const updatedItem = await Product.findOneAndUpdate(
+        {
+          _id: item.product._id,
+          quantity: { $gte: item.quantity },
+        },
+        {
+          $inc: { quantity: -item.quantity },
+        },
+        {
+          new: true,
+        },
+      );
+
+      if (!updatedItem) {
+        return res
+          .status(400)
+          .json({ message: `${item.product.name} does not have enough stock` });
+      }
     }
 
     order.paymentStatus = "Paid";
@@ -177,6 +211,10 @@ const invoice = async (req, res) => {
     })
       .populate("items.product")
       .populate("user");
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
     generateInvoice(res, order);
   } catch (error) {
     console.error(error);

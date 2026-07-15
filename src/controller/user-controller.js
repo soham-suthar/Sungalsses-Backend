@@ -1,35 +1,5 @@
-import Product from "../models/product-model.js";
 import User from "../models/user-model.js";
 import bcrypt from "bcrypt";
-
-const getProducts = async (req, res) => {
-  try {
-    const { color } = req.query;
-
-    // if (color) {
-    //   const products = await Product.find({
-    //     color: {
-    //       $regex: new RegExp(`^${color}$`, "i"),
-    //     },
-    //   });
-    //   return res.status(200).json(products);
-    //}
-
-    const filter = {};
-
-    if (color) {
-      filter.color = new RegExp(`^${color}$`, "i");
-    }
-
-    const products = await Product.find(filter).lean();
-
-    return res.status(200).json(products);
-  } catch (error) {
-    console.error(error);
-
-    return res.status(500).json({ message: "Internal server error" });
-  }
-};
 
 const Register = async (req, res) => {
   try {
@@ -92,19 +62,6 @@ const Login = async (req, res) => {
   }
 };
 
-const getColors = async (req, res) => {
-  try {
-    const colors = await Product.distinct("color");
-
-    const filteredColors = colors.filter(Boolean);
-    return res.status(200).json(filteredColors);
-  } catch (error) {
-    console.error(error);
-
-    return res.status(500).json({ message: "Data not Found" });
-  }
-};
-
 const getProfile = async (req, res) => {
   try {
     res.status(200).json(req.user);
@@ -114,4 +71,4 @@ const getProfile = async (req, res) => {
   }
 };
 
-export { getProducts, Register, Login, getColors, getProfile };
+export { Register, Login, getProfile };

@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { trim } from "zod";
 
 const productSchema = new mongoose.Schema(
   {
@@ -18,7 +17,6 @@ const productSchema = new mongoose.Schema(
     price: {
       type: Number,
       required: true,
-      trim: true,
     },
     color: {
       type: String,
@@ -44,6 +42,6 @@ const productSchema = new mongoose.Schema(
   },
 );
 
-const Product = new mongoose.model("products", productSchema);
+const Product = new mongoose.model("Products", productSchema);
 
 export default Product;
