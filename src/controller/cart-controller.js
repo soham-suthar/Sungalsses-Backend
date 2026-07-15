@@ -91,6 +91,7 @@ const getCart = async (req, res) => {
 
     return res.status(200).json({
       items: cart.items,
+
       totalItems,
       totalPrice,
     });
