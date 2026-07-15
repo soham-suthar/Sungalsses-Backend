@@ -5,6 +5,7 @@ import userRouter from "./src/router/userRouter.js";
 import cors from "cors";
 import path from "path";
 import adminRouter from "./src/router/admin/adminRouter.js";
+import errorMiddleware from "./src/middleware/error-middleware.js";
 
 dotenv.config();
 
@@ -21,6 +22,8 @@ app.use("/public", express.static(joinPublic));
 
 app.use("/", userRouter);
 app.use("/api/admin", adminRouter);
+
+app.use(errorMiddleware);
 
 const PORT = process.env.PORT || 3000;
 

@@ -45,8 +45,6 @@ const FONT = {
 ============================================================ */
 
 const formatCurrency = (amount) => {
-  const doc = new PDFDocument();
-
   return `₹${Number(amount).toLocaleString("en-IN")}`;
 };
 
