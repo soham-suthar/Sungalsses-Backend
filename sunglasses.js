@@ -7,6 +7,9 @@ import path from "path";
 import adminRouter from "./src/router/admin/adminRouter.js";
 import errorMiddleware from "./src/middleware/error-middleware.js";
 
+import dns from "dns";
+dns.setServers(["8.8.8.8", "1.1.1.1"]);
+
 dotenv.config();
 
 const app = express();
@@ -16,7 +19,6 @@ app.use(
   }),
 );
 app.use(express.json());
-
 const joinPublic = path.join(import.meta.dirname, "./public/");
 app.use("/public", express.static(joinPublic));
 

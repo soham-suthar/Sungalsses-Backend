@@ -10,19 +10,19 @@ const userRouter = express.Router();
 userRouter
   .route("/api/checkout")
   .post(authMiddleware, validate(checkoutSchema), order.checkout);
-userRouter.route("/api/order").get(authMiddleware, order.getOrder);
+userRouter.route("/api/order").get(authMiddleware, order.getOrders);
 userRouter
-  .route("/api/order/:id")
-  .get(authMiddleware, validateObjectId, order.specifiedOrder);
+  .route("/api/orders/:id")
+  .get(authMiddleware, validateObjectId, order.getOrderById);
 userRouter
-  .route("/api/order/:id/cancel")
-  .patch(authMiddleware, validateObjectId, order.cancellation);
+  .route("/api/orders/:id/cancel")
+  .patch(authMiddleware, validateObjectId, order.cancelOrder);
 
 userRouter
-  .route("/api/order/:id/pay")
-  .patch(authMiddleware, validateObjectId, order.payment);
+  .route("/api/orders/:id/pay")
+  .patch(authMiddleware, validateObjectId, order.payOrder);
 userRouter
-  .route("/api/order/:id/invoice")
-  .get(authMiddleware, validateObjectId, order.invoice);
+  .route("/api/orders/:id/invoice")
+  .get(authMiddleware, validateObjectId, order.downloadInvoice);
 
 export default userRouter;

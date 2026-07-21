@@ -41,7 +41,7 @@ const addToCart = asyncMiddleware(async (req, res) => {
     const newQuantity = existingItem.quantity + quantity;
 
     if (newQuantity > product.quantity) {
-      return res.status(400).json({ message: "Note enough stock" });
+      return res.status(400).json({ message: "Not enough stock" });
     }
 
     existingItem.quantity += quantity;
@@ -73,16 +73,16 @@ const getCart = asyncMiddleware(async (req, res) => {
   let totalItems = 0;
   let totalPrice = 0;
 
-  cart.items.forEach((item) => {
+  for (const item of cart.items) {
     if (!item.product) {
       return res.status(400).json({
-        message: `${item.product.name} is out of stock or has insufficient quantity`,
+        message: `One of the items in your cart is no longer available`,
       });
     }
 
     totalItems += item.quantity;
     totalPrice += item.product.price * item.quantity;
-  });
+  }
 
   return res.status(200).json({
     items: cart.items,

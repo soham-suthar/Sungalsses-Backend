@@ -7,13 +7,6 @@ const productSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    src: {
-      type: String,
-      required: true,
-    },
-    hoverSrc: {
-      type: String,
-    },
     price: {
       type: Number,
       required: true,
@@ -36,12 +29,20 @@ const productSchema = new mongoose.Schema(
       default: 0,
       min: 0,
     },
+
+    src: {
+      type: String,
+      required: true,
+    },
+    hoverSrc: {
+      type: String,
+    },
   },
   {
     timestamps: true,
   },
 );
 
-const Product = new mongoose.model("Products", productSchema);
+const Product = mongoose.model("Product", productSchema);
 
 export default Product;

@@ -25,7 +25,7 @@ adminRouter
     authMiddleware,
     adminMiddleware,
     validateObjectId,
-    adminController.specifiedOrder,
+    adminController.getOrderById,
   );
 
 export default adminRouter;

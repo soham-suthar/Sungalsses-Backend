@@ -5,41 +5,32 @@ import getSort from "../../util/Sorting.js";
 import asyncMiddleware from "../../middleware/asyncMiddleware.js";
 
 const order = asyncMiddleware(async (req, res) => {
-  // Query Parameters
-
   let query = {};
 
-  // Filtering
-
   const { page = 1, limit = 10 } = req.query;
-
   const { search, orderStatus, paymentStatus } = req.query;
-
   const { sort } = req.query;
 
-  // Validation
+  // Utilities — always defined, regardless of search
+  const { pageNumber, limitNumber, skip } = getPagination(page, limit);
+  const sortQuery = getSort(sort, [
+    "totalPrice",
+    "paymentStatus",
+    "orderStatus",
+    "createdAt",
+  ]);
 
   if (search) {
     const users = await User.find({
       $or: [
-        {
-          name: {
-            $regex: search,
-            $options: "i",
-          },
-        },
-        {
-          email: {
-            $regex: search,
-            $options: "i",
-          },
-        },
+        { name: { $regex: search, $options: "i" } },
+        { email: { $regex: search, $options: "i" } },
       ],
     }).select("_id");
 
     if (users.length === 0) {
       return res.status(200).json({
-        page: 1,
+        page: pageNumber,
         limit: limitNumber,
         totalOrders: 0,
         totalPages: 0,
@@ -49,30 +40,11 @@ const order = asyncMiddleware(async (req, res) => {
       });
     }
 
-    // Utilities
-
-    const { pageNumber, limitNumber, skip } = getPagination(page, limit);
-    const sortQuery = getSort(sort, [
-      "totalPrice",
-      "paymentStatus",
-      "orderStatus",
-      "createdAt",
-    ]);
-
-    const totalOrders = await Order.countDocuments(query);
-    const totalPages = Math.ceil(totalOrders / limitNumber);
-
-    // MongoDB querying
-
     const userIds = users.map((user) => user._id);
-
-    query.user = {
-      $in: userIds,
-    };
+    query.user = { $in: userIds };
   }
 
   const allowedPaymentStatus = ["Pending", "Paid", "Failed"];
-
   if (paymentStatus && !allowedPaymentStatus.includes(paymentStatus)) {
     return res
       .status(400)
@@ -86,18 +58,16 @@ const order = asyncMiddleware(async (req, res) => {
     "Delivered",
     "Cancelled",
   ];
-
   if (orderStatus && !allowedOrderStatus.includes(orderStatus)) {
     return res.status(400).json({ message: "Please enter valid order status" });
   }
 
-  if (paymentStatus) {
-    query.paymentStatus = paymentStatus;
-  }
+  if (paymentStatus) query.paymentStatus = paymentStatus;
+  if (orderStatus) query.orderStatus = orderStatus;
 
-  if (orderStatus) {
-    query.orderStatus = orderStatus;
-  }
+  // Count AFTER query is fully built — fixes inflated totals from before
+  const totalOrders = await Order.countDocuments(query);
+  const totalPages = Math.ceil(totalOrders / limitNumber);
 
   const orders = await Order.find(query)
     .populate("user", "name email")
@@ -110,17 +80,13 @@ const order = asyncMiddleware(async (req, res) => {
     .limit(limitNumber)
     .lean();
 
-  // Return
-
   return res.status(200).json({
     data: orders,
     pagination: {
       page: pageNumber,
       limit: limitNumber,
-
       totalOrders,
       totalPages,
-
       hasNextPage: pageNumber < totalPages,
       hasPreviousPage: pageNumber > 1,
     },
@@ -164,7 +130,7 @@ const updateStatus = asyncMiddleware(async (req, res) => {
     .json({ message: "Status changed successfully", order });
 });
 
-const specifiedOrder = asyncMiddleware(async (req, res) => {
+const getOrderById = asyncMiddleware(async (req, res) => {
   const order = await Order.findById(req.params.id)
     .populate("user", "name email")
     .populate("items.product", "name color src")
@@ -181,4 +147,4 @@ const specifiedOrder = asyncMiddleware(async (req, res) => {
   });
 });
 
-export { order, updateStatus, specifiedOrder };
+export { order, updateStatus, getOrderById };

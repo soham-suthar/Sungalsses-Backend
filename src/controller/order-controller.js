@@ -66,7 +66,7 @@ const checkout = asyncMiddleware(async (req, res) => {
   return res.status(201).json({ message: "Order created successfully", order });
 });
 
-const getOrder = asyncMiddleware(async (req, res) => {
+const getOrders = asyncMiddleware(async (req, res) => {
   const userId = req.user._id;
 
   const order = await Order.find({ user: userId })
@@ -79,7 +79,7 @@ const getOrder = asyncMiddleware(async (req, res) => {
   });
 });
 
-const specifiedOrder = asyncMiddleware(async (req, res) => {
+const getOrderById = asyncMiddleware(async (req, res) => {
   const userId = req.user._id;
 
   const order = await Order.findOne({
@@ -93,7 +93,7 @@ const specifiedOrder = asyncMiddleware(async (req, res) => {
   return res.status(200).json(order);
 });
 
-const cancellation = asyncMiddleware(async (req, res) => {
+const cancelOrder = asyncMiddleware(async (req, res) => {
   const userId = req.user._id;
 
   const order = await Order.findOne({ user: userId, _id: req.params.id });
@@ -122,7 +122,7 @@ const cancellation = asyncMiddleware(async (req, res) => {
 
 // Payment
 
-const payment = asyncMiddleware(async (req, res) => {
+const payOrder = asyncMiddleware(async (req, res) => {
   const userId = req.user._id;
   const order = await Order.findOne({
     user: userId,
@@ -163,7 +163,7 @@ const payment = asyncMiddleware(async (req, res) => {
   }
 
   order.paymentStatus = "Paid";
-  order.orderStatus = "Delivered";
+  order.orderStatus = "Processing";
   await order.save();
 
   const cart = await Cart.findOne({ user: userId });
@@ -176,7 +176,7 @@ const payment = asyncMiddleware(async (req, res) => {
   return res.status(200).json({ message: "Payment Successful", order });
 });
 
-const invoice = asyncMiddleware(async (req, res) => {
+const downloadInvoice = asyncMiddleware(async (req, res) => {
   const userId = req.user._id;
   const order = await Order.findOne({
     user: userId,
@@ -191,4 +191,11 @@ const invoice = asyncMiddleware(async (req, res) => {
   generateInvoice(res, order);
 });
 
-export { checkout, getOrder, specifiedOrder, cancellation, payment, invoice };
+export {
+  checkout,
+  getOrders,
+  getOrderById,
+  cancelOrder,
+  payOrder,
+  downloadInvoice,
+};
